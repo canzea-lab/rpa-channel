@@ -1,3 +1,4 @@
+const events = require('./events').init();
 
 var websocket = {};
 //var config = require('config');

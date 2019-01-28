@@ -7,6 +7,12 @@ const querystring = require('querystring');
 var bodyParser = require('body-parser')
 
 const socket = require('./socket');
+require('./db').init();
+const events = require('./events').init(socket);
+
+var v1Router = require('./routes/v1');
+
+const Conversation = require('./db/model/conversation');
 
 // Constants
 const PORT = 80;
@@ -32,6 +38,10 @@ app.post('/bridge', (hreq, hres) => {
     return hres.status(500).json({ message: "No text found"});
   }
 
+  const convo = new Conversation({ label: voiceId });
+  convo.save().then(() => console.log('Recorded convo'));
+
+  events.send("HI " + voiceId);
   socket.updateClient({
     type: "rpa-channel.bridge",
     voice: voiceId
@@ -70,16 +80,46 @@ app.post('/bridge', (hreq, hres) => {
       return hres.status(500).json({ message: "Error " + err });
     } else {
 
+      var jbody = JSON.parse(body);
+
       socket.updateClient({
-        type: "rpa-channel.bridge",
+        type: "rpa-channel.bridge.listen.response",
         complete: true,
+        message: jbody,
         voice: voiceId
       }, '000');
 
-      return hres.status(200).json(JSON.parse(body));
+
+      // curl -XPOST http://localhost:5005/webhooks/rest/webhook -H "Content-Type: application/json" -d '{"sender":"Joe", "message":"hello"}'
+
+      var data = {
+        sender: "joe",
+        message: jbody.transcript
+      }
+      console.log("Sending data: " + JSON.stringify(data));
+
+      request.post({url: 'http://20.20.20.20:5005/webhooks/rest/webhook', json: data}, function (berr, bresp, bbody) {
+         if (berr) {
+             return hres.status(500).json({ message: "Error " + berr });
+         } else {
+
+             console.log("Body = "+JSON.stringify(bbody));
+             socket.updateClient({
+                 type: "rpa-channel.bridge.brain.response",
+                 message: bbody,
+                 voice: voiceId
+             }, '000');
+
+             return hres.status(200).json(bbody);
+
+         }
+      });
+
     }
   });
 });
+
+app.use("/v1", v1Router);
 
 socket.init();
 app.listen(PORT, HOST);
