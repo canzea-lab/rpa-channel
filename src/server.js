@@ -98,7 +98,9 @@ app.post('/bridge', (hreq, hres) => {
       }
       console.log("Sending data: " + JSON.stringify(data));
 
-      request.post({url: 'http://20.20.20.20:5005/webhooks/rest/webhook', json: data}, function (berr, bresp, bbody) {
+      let brain = nconf.get("brain:url");
+
+      request.post({url: brain + '/webhooks/rest/webhook', json: data}, function (berr, bresp, bbody) {
          if (berr) {
              return hres.status(500).json({ message: "Error " + berr });
          } else {

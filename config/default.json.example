@@ -4,6 +4,15 @@
         "password": "",
         "username": ""
     },
-    "input_source": "",
-    "forward": ""
+    "database": {
+        "host": "mongo-mongodb.apps.svc.cluster.local",
+        "dbname": "",
+        "username": "",
+        "password": ""
+    },
+    "inputsource": "https://rpa-speak.local",
+    "forward": "https://rpa-listen.local",
+    "brain": {
+        "url": "https://rpa-brain.local"
+    }
 }
