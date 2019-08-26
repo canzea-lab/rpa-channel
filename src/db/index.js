@@ -5,7 +5,7 @@ mongoose.set('useCreateIndex', true);
 const nconf = require('nconf');
 
 nconf.argv()
-   .env({lowerCase:true, parseValues:true})
+   .env({separator:'_', lowerCase:true, parseValues:true})
    .file({ file: 'config/default.json' });
 
 

@@ -2,8 +2,8 @@ var amqp = require('amqplib/callback_api');
 var nconf = require('nconf');
 
 nconf.argv()
-   .env()
-   .file({ file: 'config/default.json' });
+    .env({separator:'_', lowerCase:true, parseValues:true})
+    .file({ file: 'config/default.json' });
 
 var events = {}
 
