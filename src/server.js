@@ -55,11 +55,11 @@ app.post('/bridge', (hreq, hres) => {
 
   console.log("Translating text: " + text);
 
-  console.log("--> INPUT: " + nconf.get("input_source"));
+  console.log("--> INPUT: " + nconf.get("inputsource"));
 
-  const instream = request({url:nconf.get("input_source") + '/read?' + query});
+  const instream = request({url:nconf.get("inputsource") + '/read?' + query});
 
-  console.log("---> Calling " + nconf.get("input_source") + '/read?' + query);
+  console.log("---> Calling " + nconf.get("inputsource") + '/read?' + query);
 
   instream.on("error", (err) => {
     return hres.status(500).json({ message: "Error " + err});
