@@ -1,10 +1,27 @@
 var amqp = require('amqplib/callback_api');
+var nconf = require('nconf');
+
+nconf.argv()
+   .env()
+   .file({ file: 'config/default.json' });
 
 var events = {}
 
 events.init = function(socket){
 
-    amqp.connect('amqp://20.20.20.20', function(err, conn) {
+    let conn_config = {
+        hostname: nconf.get("rabbitmq:host"),
+        port: 5672,
+        username: nconf.get("rabbitmq:username"),
+        password: nconf.get("rabbitmq:password")       
+    }
+    console.log("CONN " + JSON.stringify(conn_config));
+
+    amqp.connect(conn_config, function(err, conn) {
+      if (err) {
+          console.log(err);
+          process.exit(1);
+      }
       conn.createChannel(function(err, ch) {
         var q = 'hello';
 
@@ -22,7 +39,12 @@ events.init = function(socket){
     });
 
     events.send = function(msg) {
-        amqp.connect('amqp://20.20.20.20', function(err, conn) {
+        amqp.connect(conn_config, function(err, conn) {
+          if (err) {
+            console.log(err);
+            process.exit(1);
+          }
+      
           conn.createChannel(function(err, ch) {
             var q = 'hello';
 

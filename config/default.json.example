@@ -1,0 +1,9 @@
+{
+    "rabbitmq": {
+        "addresses": "rabbitmq.apps.svc.cluster.local",
+        "password": "",
+        "username": ""
+    },
+    "input_source": "",
+    "forward": ""
+}

@@ -4,13 +4,15 @@ mongoose.set('useCreateIndex', true);
 
 const nconf = require('nconf');
 
-nconf.argv().env({lowerCase:true, parseValues:true});
+nconf.argv()
+   .env({lowerCase:true, parseValues:true})
+   .file({ file: 'config/default.json' });
 
 
-dbHost = nconf.get('database_host');
-dbUser = nconf.get('database_username');
-dbPass = nconf.get('database_password');
-dbName = nconf.get('database_dbname');
+dbHost = nconf.get('database:host');
+dbUser = nconf.get('database:username');
+dbPass = nconf.get('database:password');
+dbName = nconf.get('database:dbname');
 
 var db = {};
 
