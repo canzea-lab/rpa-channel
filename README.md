@@ -59,3 +59,16 @@ db.createUser(
         roles: [ "readWrite" ]
     }
 );
+
+
+## Demo Environment
+
+```
+curl -v https://rpa-channel.prod.ws.189544.xyz/bridge -X POST -d text="I want to order a pizza" -d voiceId=Amy
+```
+
+### The Brain
+```
+curl -XPOST https://rpa-brain.prod.ws.189544.xyz/conversations/default/respond -d '{"query":"hello"}'
+```
+
