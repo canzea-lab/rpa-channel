@@ -123,7 +123,7 @@ app.post('/bridge', (hreq, hres) => {
 
 app.use("/v1", v1Router);
 
-socket.init();
+//socket.init();
 app.listen(PORT, HOST);
 
 console.log(`Running on http://${HOST}:${PORT}`);
