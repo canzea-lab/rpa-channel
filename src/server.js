@@ -3,6 +3,7 @@
 const express = require('express');
 const request = require('request');
 const querystring = require('querystring');
+let httpServer = require('http').createServer();
 
 var bodyParser = require('body-parser')
 
@@ -123,7 +124,12 @@ app.post('/bridge', (hreq, hres) => {
 
 app.use("/v1", v1Router);
 
-//socket.init();
-app.listen(PORT, HOST);
+httpServer.on('request', app);
 
-console.log(`Running on http://${HOST}:${PORT}`);
+socket.init(httpServer);
+
+httpServer.listen(PORT, function() {
+  console.log(`http/ws server listening on ${PORT}`);
+  console.log(`Running on http://${HOST}:${PORT}`);
+});
+
