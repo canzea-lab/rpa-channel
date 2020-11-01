@@ -8,12 +8,13 @@ var websocket = {};
 websocket.connections = {};
 websocket.server = null;
 
-websocket.init = function(){
+websocket.init = function(httpServer){
     var self = this;
     const WebSocket = require('ws');
 
     this.server = new WebSocket.Server({
-        port: 7777,
+        server: httpServer,
+//         port: 7777,
         perMessageDeflate: false
 //        verifyClient: function(info, cb){
 //            var token = info.req.headers['sec-websocket-protocol'];
