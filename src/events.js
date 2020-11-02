@@ -29,11 +29,11 @@ events.init = function(socket){
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
         ch.consume(q, function(msg) {
+            console.log(" [x] Received %s", msg.content.toString());
             socket.updateClient({
               type: "rpa-channel.event",
               message: msg.content.toString()
             }, '000');
-            console.log(" [x] Received %s", msg.content.toString());
         }, {noAck: true});
       });
     });
