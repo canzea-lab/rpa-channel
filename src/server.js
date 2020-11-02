@@ -8,6 +8,7 @@ let httpServer = require('http').createServer();
 var bodyParser = require('body-parser')
 
 const socket = require('./socket');
+socket.init(httpServer);
 require('./db').init();
 const events = require('./events').init(socket);
 
@@ -126,7 +127,6 @@ app.use("/v1", v1Router);
 
 httpServer.on('request', app);
 
-socket.init(httpServer);
 
 httpServer.listen(PORT, function() {
   console.log(`http/ws server listening on ${PORT}`);
