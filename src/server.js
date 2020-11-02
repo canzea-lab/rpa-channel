@@ -105,8 +105,8 @@ app.post('/bridge', (hreq, hres) => {
          if (berr) {
              return hres.status(500).json({ message: "Error " + berr });
          } else {
-
-             console.log("Body = "+JSON.stringify(bbody));
+             console.log("BBODY TEXT = "+bbody);
+             //console.log("Body = "+JSON.stringify(bbody));
              socket.updateClient({
                  type: "rpa-channel.bridge.brain.response",
                  message: bbody,
