@@ -82,6 +82,8 @@ app.post('/bridge', (hreq, hres) => {
       return hres.status(500).json({ message: "Error " + err });
     } else {
 
+      console.log("Body response from FORWARD " + body);
+      
       var jbody = JSON.parse(body);
 
       socket.updateClient({
